@@ -11,3 +11,28 @@
 .auth-container .btn-color {
   background-color: #4aa35a;
 }
+.notFound-container {
+  background-image: url("./assets//images//not-found-bg.png");
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.notFound-container .logo {
+  width: 366px;
+  height: 115px;
+}
+.notFound-container .paragraph {
+  font-size: 20px;
+  width: 380px;
+  font-weight: 600;
+}
+.notFound-container .btn {
+  background-color: #009247;
+  width: 300px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 600;
+}
+.notFound-container .icon {
+  margin-right: 30px;
+}

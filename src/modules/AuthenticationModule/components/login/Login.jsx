@@ -40,7 +40,6 @@ function Login({ saveLoginData }) {
       toast.error(error.response.data.message, { position: "top-left" });
     }
   };
-
   return (
     <>
       <ToastContainer />
@@ -101,7 +100,7 @@ function Login({ saveLoginData }) {
                       Forgot Password?
                     </a>
                   </div>
-                  <button className="btn btn-color w-100 text-white fs-4">
+                  <button className="btn btn-color w-100 text-white p-4">
                     Login
                   </button>
                 </form>
