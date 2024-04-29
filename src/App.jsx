@@ -15,6 +15,7 @@ import ResetPass from "./modules/AuthenticationModule/components/resetpass/Reset
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
+import RecipeData from "./modules/RecipesModule/components/RecipeData/RecipeData";
 
 function App() {
   let [loginData, setLoginData] = useState(null);
@@ -41,6 +42,7 @@ function App() {
         { index: true, element: <Dashboard /> },
         // { index: "dashboard", element: <Dashboard /> },
         { path: "recipes", element: <RecipesList /> },
+        { path: "recipeData", element: <RecipeData /> },
         { path: "categories", element: <CategoriesList /> },
         { path: "users", element: <UserList /> },
       ],

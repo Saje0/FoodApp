@@ -112,9 +112,9 @@ function ResetPass() {
                       })}
                     />
                   </div>
-                  {errors.password && (
+                  {errors.confirmPassword && (
                     <p className="alert alert-danger">
-                      {errors.password.message}
+                      {errors.confirmPassword.message}
                     </p>
                   )}
                   <button className="btn btn-color w-100 text-white fs-4">

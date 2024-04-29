@@ -36,3 +36,25 @@
 .notFound-container .icon {
   margin-right: 30px;
 }
+.sidebar-container .ps-sidebar-container {
+  background-color: #1f263e;
+  height: 100vh;
+  color: #fff;
+}
+.sidebar-container .ps-sidebar-container .ps-menu-button:hover {
+  background-color: rgba(47, 140, 96, 0.4);
+}
+.header-container {
+  background-image: url(./assets//images/header-bg-svg.svg);
+  background-size: cover;
+  color: white;
+}
+.recipes-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 20%;
+  -webkit-border-radius: 20%;
+  -moz-border-radius: 20%;
+  -ms-border-radius: 20%;
+  -o-border-radius: 20%;
+}
