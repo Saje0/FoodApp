@@ -7,27 +7,26 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import DeleteData from "../../../SharedModule/components/DeleteData/DeleteData";
+import EditModal from "./editModal";
 function CategoriesList() {
+  const [rowData, setRowData] = useState({});
   const [categoriesList, setCategoriesList] = useState([]);
   const [show, setShow] = useState(false);
-
   const [categoryId, setCategoryId] = useState(0);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const handleDeleteModalClose = () => setShowDeleteModal(false);
   const handleDeleteModalShow = (id) => {
     setCategoryId(id);
     setShowDeleteModal(true);
   };
-
   let {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const getCategoriesList = async () => {
     try {
       let response = await axios.get(
@@ -99,6 +98,15 @@ function CategoriesList() {
           </form>
         </Modal.Body>
       </Modal>
+      {showEditModal && (
+        <EditModal
+          getCategoriesList={getCategoriesList}
+          showModal={showEditModal}
+          setShowModal={setShowEditModal}
+          rowData={rowData}
+          setRowData={setRowData}
+        />
+      )}
       <Modal show={showDeleteModal} onHide={handleDeleteModalClose}>
         <Modal.Header closeButton>
           <h3>Delete Category</h3>
@@ -142,6 +150,10 @@ function CategoriesList() {
                   <td>{category.creationDate}</td>
                   <td>
                     <i
+                      onClick={() => {
+                        setRowData(category);
+                        setShowEditModal(true);
+                      }}
                       className="fa fa-edit text-warning mx-2"
                       aria-hidden="true"
                     ></i>
@@ -162,5 +174,4 @@ function CategoriesList() {
     </>
   );
 }
-
 export default CategoriesList;
