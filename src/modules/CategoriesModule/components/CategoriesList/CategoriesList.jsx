@@ -13,6 +13,9 @@ function CategoriesList() {
   const [categoriesList, setCategoriesList] = useState([]);
   const [show, setShow] = useState(false);
   const [categoryId, setCategoryId] = useState(0);
+  const [nameValue, setNameValue] = useState("");
+  const [arrayOfPages, setArrayOfPages] = useState([]);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -27,13 +30,19 @@ function CategoriesList() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const getCategoriesList = async () => {
+  const getCategoriesList = async (name, pageNumber, pageSize) => {
     try {
       let response = await axios.get(
-        "https://upskilling-egypt.com:3006/api/v1/Category/?pageSize=10&pageNumber=1",
+        `https://upskilling-egypt.com:3006/api/v1/Category/?pageSize=${pageSize}&pageNumber=${pageNumber}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          params: { name: name },
         }
+      );
+      setArrayOfPages(
+        Array(response.data.totalNumberOfPages)
+          .fill()
+          .map((_, i) => i + 1)
       );
       setCategoriesList(response.data.data);
     } catch (error) {}
@@ -63,8 +72,14 @@ function CategoriesList() {
       getCategoriesList();
     } catch (error) {}
   };
+
+  const getNameValue = (input) => {
+    setNameValue(input.target.value);
+    getCategoriesList(input.target.value, 1, 10);
+  };
+
   useEffect(() => {
-    getCategoriesList();
+    getCategoriesList("", 1, 10);
   }, []);
   return (
     <>
@@ -132,6 +147,18 @@ function CategoriesList() {
             </button>
           </div>
         </div>
+        <div className="filteration my-3">
+          <div className="row">
+            <div className="col-md-12">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search By Category Name..."
+                onChange={getNameValue}
+              />
+            </div>
+          </div>
+        </div>
         <table className="table">
           <thead>
             <tr>
@@ -147,7 +174,11 @@ function CategoriesList() {
                 <tr key={category.id}>
                   <th scope="row">{index + 1}</th>
                   <td>{category.name}</td>
-                  <td>{category.creationDate}</td>
+                  <td>
+                    {new Date(category.creationDate).toLocaleDateString(
+                      "en-US"
+                    )}
+                  </td>
                   <td>
                     <i
                       onClick={() => {
@@ -155,21 +186,47 @@ function CategoriesList() {
                         setShowEditModal(true);
                       }}
                       className="fa fa-edit text-warning mx-2"
-                      aria-hidden="true"
                     ></i>
                     <i
                       onClick={() => handleDeleteModalShow(category.id)}
                       className="fa fa-trash text-danger"
-                      aria-hidden="true"
                     ></i>
                   </td>
                 </tr>
               ))
             ) : (
-              <NoData />
+              <tr>
+                <td colSpan="4">
+                  <NoData />
+                </td>
+              </tr>
             )}
           </tbody>
         </table>
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item">
+              <a className="page-link" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {arrayOfPages.map((pageNo) => (
+              <li
+                className="page-item"
+                key={Math.random()}
+                onClick={() => getCategoriesList(nameValue, pageNo, 10)}
+              >
+                <a className="page-link">{pageNo}</a>
+              </li>
+            ))}
+
+            <li className="page-item">
+              <a className="page-link" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </>
   );

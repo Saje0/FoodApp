@@ -1,42 +1,26 @@
-import logo from "../../../../assets/images/authlogo.png";
+import logo from "../../../assets/images/authlogo.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Login({ saveLoginData }) {
+function VerifyAccount() {
   let navigate = useNavigate();
-
-  // Function to navigate to the forgot password page
-  const handleClick = () => navigate("/forgetPass");
-
-  // Initialize react-hook-form
   let {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  // Function to handle form submission
   const onSubmit = async (data) => {
     try {
-      // Make a POST request to login
-      let response = await axios.post(
-        "https://upskilling-egypt.com:3006/api/v1/Users/Login",
+      let response = await axios.put(
+        "https://upskilling-egypt.com:3006/api/v1/Users/verify",
         data
       );
-
-      // Store the token in local storage
-      localStorage.setItem("token", response.data.token);
-
-      // Call saveLoginData function passed from parent component
-      saveLoginData();
-
-      // Redirect user to dashboard
-      navigate("/dashboard");
+      navigate("/login");
+      toast.success(response.data.message);
     } catch (error) {
-      // Display error message if there's an error in login
       toast.error(error.response.data.message, { position: "top-left" });
     }
   };
@@ -50,7 +34,7 @@ function Login({ saveLoginData }) {
                 <img src={logo} alt="logo" className="logo" />
               </div>
               <div className="form-content mx-md-5 ">
-                <h3>Log In</h3>
+                <h3>Verify Account</h3>
                 <p className="text-muted">
                   Welcome Back! Please enter your details
                 </p>
@@ -81,26 +65,18 @@ function Login({ saveLoginData }) {
                     </span>
                     <input
                       type="text"
-                      placeholder="Password"
+                      placeholder="OTP"
                       className="form-control"
-                      {...register("password", {
-                        required: "password is required",
+                      {...register("code", {
+                        required: "code is required",
                       })}
                     />
                   </div>
-                  {errors.password && (
-                    <p className="alert alert-danger">
-                      {errors.password.message}
-                    </p>
+                  {errors.code && (
+                    <p className="alert alert-danger">{errors.code.message}</p>
                   )}
-                  <div className="links d-flex justify-content-between my-3">
-                    <Link to="/register">Register Now?</Link>
-                    <Link className="link" to="/forgotpass">
-                      Forgot Password?
-                    </Link>
-                  </div>
                   <button className="btn btn-color w-100 text-white p-4">
-                    Login
+                    Verify
                   </button>
                 </form>
               </div>
@@ -112,4 +88,4 @@ function Login({ saveLoginData }) {
   );
 }
 
-export default Login;
+export default VerifyAccount;

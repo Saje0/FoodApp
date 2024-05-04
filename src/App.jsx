@@ -16,6 +16,8 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import ProtectedRoute from "./modules/SharedModule/components/ProtectedRoute/ProtectedRoute";
 import RecipeData from "./modules/RecipesModule/components/RecipeData/RecipeData";
+import { ToastContainer } from "react-toastify";
+import VerifyAccount from "./modules/AuthenticationModule/VerifyAccount/VerifyAccount";
 
 function App() {
   let [loginData, setLoginData] = useState(null);
@@ -58,12 +60,18 @@ function App() {
           element: <Login saveLoginData={saveLoginData} />,
         },
         { path: "register", element: <Register /> },
-        { path: "forgetpass", element: <ForgetPass /> },
+        { path: "verifyAccount", element: <VerifyAccount /> },
+        { path: "forgotpass", element: <ForgetPass /> },
         { path: "resetpass", element: <ResetPass /> },
       ],
     },
   ]);
-  return <RouterProvider router={routes}></RouterProvider>;
+  return (
+    <>
+      <RouterProvider router={routes}></RouterProvider>
+      <ToastContainer />
+    </>
+  );
 }
 
 export default App;

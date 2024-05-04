@@ -1,5 +1,6 @@
 import Header from "../../../SharedModule/components/Header/Header";
 import HomeImg from "../../../../assets/images/home-avatar.svg";
+import RecipesListHeader from "../../../SharedModule/components/RecipesListHeader/RecipesListHeader";
 function Dashboard() {
   return (
     <>
@@ -10,6 +11,7 @@ function Dashboard() {
         }
         imgUrl={HomeImg}
       />
+      <RecipesListHeader />
     </>
   );
 }

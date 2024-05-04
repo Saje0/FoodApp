@@ -1,6 +1,5 @@
 import navbarlogo from "../../../../assets/images/avatar.png";
 function Navbar({ loginData }) {
-  console.log(loginData);
   return (
     <div>
       <nav className="navbar navbar-expand-lg">

@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
 .auth-container {
   background-image: url("./assets/images/background-image.png");
 }
@@ -57,4 +63,38 @@
   -moz-border-radius: 20%;
   -ms-border-radius: 20%;
   -o-border-radius: 20%;
+}
+.recipesheader-container {
+  background-color: #f0ffef;
+}
+.recipesheader-container p {
+  font-size: 19px;
+  font-weight: 400;
+  width: 600px;
+}
+.recipesheader-container h5 {
+  font-size: 30px;
+}
+.recipesheader-container i {
+  margin-left: 20px;
+}
+.recipesheader-container button {
+  background-color: #009247;
+  width: 220px;
+  height: 48px;
+  font-size: 17px;
+  font-weight: 600;
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+.recipesList-container button {
+  background-color: #009247;
+  width: 220px;
+  height: 48px;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
