@@ -12,16 +12,18 @@ function UserList() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [nameValue, setNameValue] = useState("");
+  const [groupsValue, setGroupsValue] = useState([0]);
   const [arrayOfPages, setArrayOfPages] = useState([]);
+  const [userType, setUserType] = useState(0);
 
   const [usersList, setUsersList] = useState([]);
-  const getUsersList = async (name, pageSize, pageNumber) => {
+  const getUsersList = async (name, pageSize, pageNumber, groups) => {
     try {
       let response = await axios.get(
         `https://upskilling-egypt.com:3006/api/v1/Users?pageSize=${pageSize}&pageNumber=${pageNumber}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          params: { userName: name },
+          params: { userName: name, groups: groups },
         }
       );
       setArrayOfPages(
@@ -35,6 +37,10 @@ function UserList() {
   const getNameValue = (input) => {
     setNameValue(input.target.value);
     getUsersList(input.target.value, 10, 1);
+  };
+  const getGroupsValue = (val) => {
+    setGroupsValue(val);
+    getUsersList("", "", "", val);
   };
   useEffect(() => {
     getUsersList("", 10, 1);
@@ -70,14 +76,15 @@ function UserList() {
               <select
                 type="text"
                 className="form-control"
-                // onChange={getCategoryValue}
+                onChange={(e) => {
+                  setUserType(e.target.value);
+                  getGroupsValue(e.target.value);
+                  console.log(e.target.value);
+                }}
               >
                 <option value="">System User</option>
-                {/* {categoriesList.map((cat) => (
-                  <option value={cat.id} key={cat.id}>
-                    {cat.name}
-                  </option>
-                ))} */}
+                <option value="1">Admin</option>
+                <option value="2">User</option>
               </select>
             </div>
           </div>
@@ -138,12 +145,11 @@ function UserList() {
               <li
                 className="page-item"
                 key={Math.random()}
-                onClick={() => getUsersList(nameValue, 5, pageNumber)}
+                onClick={() => getUsersList(nameValue, 10, pageNumber)}
               >
                 <a className="page-link">{pageNumber}</a>
               </li>
             ))}
-
             <li className="page-item">
               <a className="page-link" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
