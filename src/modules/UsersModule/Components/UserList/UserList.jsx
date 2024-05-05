@@ -14,16 +14,16 @@ function UserList() {
   const [nameValue, setNameValue] = useState("");
   const [groupsValue, setGroupsValue] = useState([0]);
   const [arrayOfPages, setArrayOfPages] = useState([]);
-  const [userType, setUserType] = useState(0);
+  const [userType, setUserType] = useState("");
 
   const [usersList, setUsersList] = useState([]);
-  const getUsersList = async (name, pageSize, pageNumber, groups) => {
+  const getUsersList = async (name, pageSize, pageNumber, userType) => {
     try {
       let response = await axios.get(
         `https://upskilling-egypt.com:3006/api/v1/Users?pageSize=${pageSize}&pageNumber=${pageNumber}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          params: { userName: name, groups: groups },
+          params: { userName: name, groups: userType },
         }
       );
       setArrayOfPages(
@@ -36,12 +36,13 @@ function UserList() {
   };
   const getNameValue = (input) => {
     setNameValue(input.target.value);
-    getUsersList(input.target.value, 10, 1);
+    getUsersList(input.target.value, 10, 1, userType);
   };
   const getGroupsValue = (val) => {
     setGroupsValue(val);
-    getUsersList("", "", "", val);
+    getUsersList(nameValue, 10, 1, val);
   };
+
   useEffect(() => {
     getUsersList("", 10, 1);
   }, []);
@@ -145,7 +146,9 @@ function UserList() {
               <li
                 className="page-item"
                 key={Math.random()}
-                onClick={() => getUsersList(nameValue, 10, pageNumber)}
+                onClick={() =>
+                  getUsersList(nameValue, 10, pageNumber, userType)
+                }
               >
                 <a className="page-link">{pageNumber}</a>
               </li>
